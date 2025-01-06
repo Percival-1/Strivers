@@ -56,23 +56,184 @@ void print(Node* head)
 
 void length(Node* head)
 {
-    
+    int count = 0;
+    Node* mover = head;
+    while(mover != NULL)
+    {
+        count++;
+        mover = mover->next;
+    }
+    cout<<"Length : "<<count<<endl;
 }
-
 
 Node* deleteHead(Node* head)
 {
+    if(head == NULL || head->next == NULL)
+    {
+        return NULL;
+    }
     Node* mover = head;
-    mover = mover->next;
+    head = head->next;
+    head->back= nullptr;
+    mover->next = nullptr;
+    delete mover;
+    return head;
+}
+
+Node* deleteTail(Node* head)
+{
+    if(head == NULL || head->next == NULL)
+    {
+        return NULL;
+    }
+    Node* mover = head;
+    while(mover->next != NULL)
+    {
+        mover = mover->next;
+    }
+    Node* temp = mover->back;
+    temp->next = nullptr;
+    mover->back=nullptr;
+    delete mover;
+    return head;
+    // while(mover->next->next != NULL)
+    // {
+    //     mover = mover->next;
+    // }
+    // Node*temp = mover->next;
+    // mover->next=nullptr;
+    // delete temp;
+    // return head;
+}
+
+Node* deletePos(Node* head , int k)
+{
+    if(head == NULL )
+    {
+        return NULL;
+    }
+    int count = 0;
+    Node* mover = head;
+    while(mover != NULL)
+    {
+        count++ ;
+        if(count == k)
+        {
+            break;
+        }
+        mover = mover->next;
+    }
+    Node* pre = mover->back;
+    Node* forw = mover->next;
+    if(pre == NULL && forw == NULL)
+    {
+        return NULL;
+    }
+    else if(pre == NULL)
+    {
+        head = deleteHead(head);
+        return head;
+    }
+    else if(forw == NULL)
+    {
+        head = deleteTail(head);
+        return head;
+    }
+
+    pre->next = forw;
+    forw->back = pre;
+    mover->next = nullptr;
     mover->back = nullptr;
-    delete head;
-    return mover;
+    delete mover;
+    return head;
+}
+
+void deleteNode(Node* temp)
+{
+    Node* pre = temp->back;
+    Node* forw =temp->next;
+    if(forw == NULL)
+    {
+         pre->next = nullptr;
+         temp->back = nullptr;
+         delete temp;
+         return;
+    }
+    pre->next = forw;
+    forw->back = pre;
+    
+    temp->next = temp->back = nullptr;
+    delete temp;
+}
+
+Node* insertHead(Node* head , int val)
+{
+    Node* ele = new Node(val , head , nullptr);
+    head->back = ele;
+    return ele;
+}
+
+Node* insertTail(Node* head , int val)
+{
+    if(head == NULL)
+    {
+        return new Node(val , nullptr , nullptr);
+    }
+    Node* mover = head;
+    while(mover->next != NULL)
+    {
+        mover= mover->next;
+    }
+    Node* pre = mover->back;
+    Node* ele = new Node(val , mover , pre);
+    pre->next = ele;
+    mover->back = ele;
+    return head;
+}
+Node* insertBeforeKthNode(Node* head , int val , int pos)
+{
+    if(pos == 1)
+    {
+        return insertHead(head , val);
+    }
+    Node* mover = head;
+    int count = 0;
+    while (mover != NULL)
+    {
+        count++;
+        if (count == pos)
+        {
+            break;
+        }
+        mover = mover->next;
+    }
+    Node* pre = mover->back;
+    Node * ele = new Node(val , mover , pre);
+    mover->back = ele;
+    pre->next = ele;
+    return head;
+}
+
+void insertBeforNode(Node* node , int val)
+{
+    Node* pre = node->back;
+    Node* ele = new Node(val , node , pre);
+    pre->next = ele;
+    node->back = ele;
 }
 
 int main(){
     vector<int> arr = { 2,4,6,8};
     Node* head = convert2DLL(arr);
-    head = deleteHead(head);
+    // head = deleteHead(head);
+    // head = deleteTail(head);
+    // head = deletePos(head,4);
+    // deleteNode(head->next);
+    // head = insertHead(head,99);
+    // head = insertTail(head , 35);
+    // head = insertBeforeKthNode(head , 34 , 5);
+
     print(head);
+    length(head);
     return 0;
 }
