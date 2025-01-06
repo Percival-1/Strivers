@@ -6,19 +6,17 @@
 #include<unordered_map>
 using namespace std;
 
-class Node{
-
+class Node
+{
     public:
     int data;
     Node* next;
-    Node* back;
 
-    public: 
-    Node(int data1 , Node*  next1 , Node* back1)
+    public:
+    Node(int data1 , Node* next1)
     {
         data = data1;
         next = next1;
-        back = back1;
     }
 
     public:
@@ -26,136 +24,227 @@ class Node{
     {
         data = data1;
         next = nullptr;
-        back = nullptr;
     }
 };
 
-Node* convert2DLL(vector<int>&arr)
+Node* convertArr(vector<int> &arr)
 {
     Node* head = new Node(arr[0]);
-    Node* prev = head;
+    Node* mover = head;
     for (int i = 1; i < arr.size(); i++)
     {
-        Node* temp = new Node(arr[i], nullptr , prev);
-        prev->next = temp;
-        prev = prev->next;    // prev = temp;
+        Node* temp = new Node(arr[i]);
+        mover->next=temp;
+        mover = mover->next; // mover = temp;     same thing
     }
     return head;
 }
 
-void print(Node* head)
+int lengthOfLL(Node* head)
 {
     Node* mover = head;
-    while(mover != NULL)
+    int count = 0;
+    while(mover)
     {
-        cout<<mover->data<<" ";
+        count++;
         mover = mover->next;
     }
-    cout<<endl;
+    return count;
 }
 
-void length(Node* head)
+int check(Node* head , int val)
 {
+    Node* mover = head;
+    while(mover)
+    {
+        if (mover->data == val)
+        {
+            return 1;
+        }
+        mover = mover->next;
+    }
+    return 0;
+}
+
+Node* removeHead(Node* head)
+{
+    if(head == NULL)
+    {
+        return head;
+    }
+    Node* mover = head;
+    head = mover->next;
+    delete mover;
+    return head;
+}
+
+Node* removeTail(Node* head)
+{
+    if(head == NULL || head->next == NULL)
+    {
+        return NULL;
+    }
+    Node* mover = head;
+    while(mover->next->next != nullptr)
+    {
+        mover = mover->next;
+    }
+    delete mover->next;
+    mover->next = nullptr;
+    return head;
+}
+
+Node* removeElements(Node* head , int k)
+{
+    if(head == NULL)
+    {
+        return head;
+    }
+    if(k == 1)
+    {
+        Node* mover = head;
+        head = mover->next;
+        delete mover;
+        return head;
+    }
+    int count = 0;
+    Node* mover = head;
+    Node* prev = NULL;
+    while(mover != NULL)
+    {
+        count++;
+        if(count == k)
+        {
+            prev->next = prev->next->next;
+            delete mover;
+            break;
+        }
+        prev = mover;
+        mover = mover->next;
+    }
+    return head;
+    // Node* mover = head;
+    // Node* back = nullptr;
+    // for (int i = 1; i < k-1; i++)
+    // {
+    //     mover = mover->next;
+    //     cout<<"value of i :"<<i<<endl;
+    // }
+    // back = mover->next;
+    // mover->next=mover->next->next;
+    // delete back;
+    // return head;
+}
+
+Node* insertHead(Node* head , int val)
+{
+    Node* store = new Node(val,head);
+    return store;
+}
+
+Node* insertTail(Node* head , int val)
+{
+    if (head == NULL)
+    {
+        return new Node(val);
+    }
+    
+    Node* mover = head;
+    while(mover->next != nullptr)
+    {
+        mover = mover->next;
+    }
+    Node* temp = new Node(val);
+    mover->next = temp;
+    return head;
+}
+
+Node* insertPosition(Node* head, int val , int pos)
+{
+    if(head == NULL)
+    {
+        if(pos==1)
+        {
+            return new Node(val);
+        }
+        else
+        {
+            return head;
+        }
+    }
+    if(pos == 1)
+    {
+        return new Node(val , head);
+    }
     int count = 0;
     Node* mover = head;
     while(mover != NULL)
     {
         count++;
-        mover = mover->next;
-    }
-    cout<<"Length : "<<count<<endl;
-}
-
-Node* deleteHead(Node* head)
-{
-    if(head == NULL || head->next == NULL)
-    {
-        return NULL;
-    }
-    Node* mover = head;
-    head = head->next;
-    head->back= nullptr;
-    mover->next = nullptr;
-    delete mover;
-    return head;
-}
-
-Node* deleteTail(Node* head)
-{
-    if(head == NULL || head->next == NULL)
-    {
-        return NULL;
-    }
-    Node* mover = head;
-    while(mover->next != NULL)
-    {
-        mover = mover->next;
-    }
-    Node* temp = mover->back;
-    temp->next = nullptr;
-    mover->back=nullptr;
-    delete mover;
-    return head;
-    // while(mover->next->next != NULL)
-    // {
-    //     mover = mover->next;
-    // }
-    // Node*temp = mover->next;
-    // mover->next=nullptr;
-    // delete temp;
-    // return head;
-}
-
-Node* deletePos(Node* head , int k)
-{
-    if(head == NULL )
-    {
-        return NULL;
-    }
-    int count = 0;
-    Node* mover = head;
-    while(mover != NULL)
-    {
-        count++ ;
-        if(count == k)
+        if(count == pos-1)
         {
+            Node* ele = new Node(val);
+            ele->next = mover->next;
+            mover->next=ele;
             break;
         }
         mover = mover->next;
     }
-    Node* pre = mover->back;
-    Node* forw = mover->next;
-    if(pre == NULL && forw == NULL)
+    return head;
+}
+
+Node* insertByValue(Node* head , int val , int posVal)
+{
+    if(head == NULL)
     {
         return NULL;
     }
-    else if(pre == NULL)
+    if(head->data == posVal)
     {
-        head = deleteHead(head);
-        return head;
+        return new Node(val , head);
     }
-    else if(forw == NULL)
+    Node* mover = head;
+    while(mover != NULL)
     {
-        head = deleteTail(head);
-        return head;
+        if(mover->next->data ==  posVal)
+        {
+            Node* ele = new Node(val);
+            ele->next = mover->next;
+            mover->next=ele;
+            break;
+        }
+        mover = mover->next;
     }
-
-    pre->next = forw;
-    forw->back = pre;
-    mover->next = nullptr;
-    mover->back = nullptr;
-    delete mover;
     return head;
 }
 
 int main(){
-    vector<int> arr = { 2,4,6,8};
-    Node* head = convert2DLL(arr);
-    // head = deleteHead(head);
-    // head = deleteTail(head);
-    head = deletePos(head,4);
-    print(head);
-    length(head);
+    vector<int> arr = {2,5,8,7};
+    Node* head = convertArr(arr);
+    // cout<<head->data<<endl;
+    // head = removeHead(head);
+    // head = removeTail(head);
+    // head = removeElements(head , 2);
+    head = insertHead(head,9);
+    head = insertTail(head,10);
+    head = insertPosition(head,11,7);
+    head = insertByValue(head , 12 , 11);
+
+    Node* mover = head;
+    int length = lengthOfLL(head);
+    for (int i = 0; i < length; i++)
+    {
+        cout<<mover->data<<" ";
+        mover = mover->next;
+    }
+
+
+    cout<<endl;
+    cout<<"length is : "<<length<<endl;
+
+    // cout<<"element exist : "<<check(head,8)<<endl;
+
+    // Node* y = new Node(arr[0] , nullptr);
+    // cout<<y->data<<endl;
     return 0;
 }
-
