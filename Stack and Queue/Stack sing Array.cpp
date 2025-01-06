@@ -8,6 +8,7 @@ using namespace std;
 
 int main(){
     class StImp{
+        public:
         int top = -1;
         int st[10];
 
@@ -19,6 +20,17 @@ int main(){
                 return;
             }
             top = top + 1;
+            st[top] = n;
+        }
+
+        public:
+        void pop()
+        {
+            if (top == -1)
+            {
+                return;
+            }
+            
         }
     };
     return 0;
