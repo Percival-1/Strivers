@@ -64,6 +64,11 @@ class Stack{
     public:
     void peek()
     {
+        if(isEmpty())
+        {
+            cout<<"Stack is empty"<<endl;
+            return;
+        }
         cout<<"Top element : "<<head->data<<endl;
     }
 

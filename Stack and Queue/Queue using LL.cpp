@@ -76,6 +76,7 @@ class Q{
         if(isEmpty())
         {
             cout<<"Queue is empty"<<endl;
+            return;
         }
         cout<<"Top element : "<<start->data<<endl;
     }
@@ -86,6 +87,7 @@ class Q{
         if(isEmpty())
         {
             cout<<"Queue is empty"<<endl;
+            return;
         }
         cout<<"End element : "<<end->data<<endl;
     }
