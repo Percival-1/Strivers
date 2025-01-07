@@ -30,6 +30,15 @@ class Stack{
         head = nullptr;
     }
 
+    bool isEmpty()
+    {
+        if(head == nullptr)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public:
     void push(int n)
     {
@@ -42,10 +51,14 @@ class Stack{
     public:
     void pop()
     {
-      Node* temp = head;
-      head = head->next;
-      delete temp;
-      size--;
+        if(isEmpty())
+        {
+            return;
+        }
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+        size--;
     }
 
     public:
