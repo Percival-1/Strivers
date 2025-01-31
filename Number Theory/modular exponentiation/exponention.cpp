@@ -8,29 +8,22 @@
 #include<queue>
 using namespace std;
 
-int modularExpo(long long x , unsigned int y , int p)
+int power(long long x , unsigned int y )
 {
     int res = 1;
-    x = x % p;
-
-    if (x == 0)
-    {
-        return 0;
-    }
-    
-    while (y>0)
+    while (y > 0)
     {
         if (y&1 == 1)
         {
-            res = (res*x)%p;
+            res = res*x;
         }
         y = y>>1;
-        x = (x*x)%p;
+        x = (x*x);
     }
     return res;
 }
 
 int main(){
-    cout<<modularExpo(3,10,7);
+    cout<<power(2,10);
     return 0;
 }
