@@ -21,7 +21,8 @@ class TreeNode{
 };
 
 class Iterative{
-    vector<int> inorder(TreeNode* root)
+    public:
+    vector<int> preorder(TreeNode* root)
     {
         vector<int> ans ;
         stack<TreeNode*> st;
@@ -30,6 +31,7 @@ class Iterative{
         {
             TreeNode* node = st.top();
             st.pop();
+            ans.push_back(node->val);
             if (node->left != nullptr)
             {
                 st.push(node->left);
@@ -38,13 +40,27 @@ class Iterative{
             {
                 st.push(node->right);
             }
-            
         }
-        
+        return ans;
     }
 };
 
+
+
 int main(){
-    
+    TreeNode* node = new TreeNode(1);
+    node->left = new TreeNode(2);
+    node->right = new TreeNode(3);
+    node->left->left = new TreeNode(4);
+    node->left->right = new TreeNode(5);
+    node->left->right->left = new TreeNode(6);
+    node->left->right->right = new TreeNode(7);
+    Iterative* pre = new Iterative();
+    vector<int> arr = pre->preorder(node);
+    for (int i = 0; i < arr.size(); i++)
+    {
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl;
     return 0;
 }
