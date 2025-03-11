@@ -8,11 +8,6 @@
 #include<queue>
 using namespace std;
 
-string convertDecimal2Binary(int n)
-{
-    
-}
-
 string trim(string &s1)
 {
     long long in = s1.find('1');

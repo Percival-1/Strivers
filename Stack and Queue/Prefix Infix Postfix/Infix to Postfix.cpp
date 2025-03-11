@@ -71,7 +71,7 @@ void convert(string s)
 }
 
 int main(){
-    string s = "a*b(a+b(c/d)a^g)";
+    string s = "I-I+I*T+(B^H)*A/G-A+L(P^(U+R))";
     convert(s);
     return 0;
 }
