@@ -16,11 +16,11 @@ class TreeNode{
   
   public:
   TreeNode() : val(0) , right(nullptr) , left(nullptr){}
-  TreeNode(int data) : val(data) , right(nullptr0 , left(nullptr) {}
+  TreeNode(int data) : val(data) , right(nullptr) , left(nullptr) {}
   TreeNode(int data , TreeNode* right1 , TreeNode* left1) : val(data) , right(right1) , left(left1){}
 };
 
-TreeNode* searchBST(TreeNode* root m int data)
+TreeNode* searchBST(TreeNode* root , int data)
 {
   TreeNode* node = root;
   while(node!=nullptr && node->val!= data)
@@ -40,10 +40,16 @@ TreeNode* searchBST(TreeNode* root m int data)
 int main()
 {
   
-  TreeNode* node = new TreeNode(20);
-  node->left = new TreeNode(20);
-  node->left->left = new TreeNode(20);
-  node->left->right = new TreeNode(20);
-  node->
+  TreeNode* node = new TreeNode(10);
+  node->left = new TreeNode(5);
+  node->left->left = new TreeNode(3);
+  node->left->right = new TreeNode(6);
+  node->left->left->left = new TreeNode(2);
+  node->left->left->right = new TreeNode(4);
+  node->left->right->right = new TreeNode(9);
+  node->right = new TreeNode(13);
+  node->right->left = new TreeNode(11);
+  node->right->right = new TreeNode(14);
+  cout<<searchBST(node , 9)->val;
   return 0;
 }
