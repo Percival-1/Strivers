@@ -19,10 +19,10 @@ vector<bool> visited(vector<bool>& arr , int n , queue<int>& q)
 }
 
 int main(){
-    int u , v , n , m;
-    cin>>n>>m;
+    int u , v , n;
+    cin>>n;
     vector<vector<int>> arr(n+1);
-    for (int i = 0; i < m; i++)
+    for (int i = 0; i < n; i++)
     {
         cin>>u>>v;
         arr[u].push_back(v);

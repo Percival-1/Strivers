@@ -1,53 +1,61 @@
-// C++ program to compute Totient function for 
-// all numbers smaller than or equal to n. 
-#include<iostream> 
-using namespace std; 
+#include<iostream>
+#include<vector>
+#include<string>
+#include<cmath>
+#include<algorithm>
+#include<unordered_map>
+#include<stack>
+#include<queue>
+using namespace std;
 
-// Computes and prints totient of all numbers 
-// smaller than or equal to n. 
-void computeTotient(int n) 
-{ 
-	// Create and initialize an array to store 
-	// phi or totient values 
-	long long phi[n+1]; 
-	for (int i=1; i<=n; i++) 
-		phi[i] = i; // indicates not evaluated yet 
-					// and initializes for product 
-					// formula. 
-
-	// Compute other Phi values 
-	for (int p=2; p<=n; p++) 
-	{ 
-		// If phi[p] is not computed already, 
-		// then number p is prime 
-		if (phi[p] == p) 
-		{ 
-			// Phi of a prime number p is 
-			// always equal to p-1. 
-			phi[p] = p-1; 
-
-			// Update phi values of all 
-			// multiples of p 
-			for (int i = 2*p; i<=n; i += p) 
-			{ 
-			// Add contribution of p to its 
-			// multiple i by multiplying with 
-			// (1 - 1/p) 
-			phi[i] = (phi[i]/p) * (p-1); 
+class TreeNode {
+	public:
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+ 
+class Solution {
+	public:
+		vector<vector<int>> levelOrder(TreeNode* root) {
+			queue<TreeNode*> q;
+			vector<vector<int>> ans;
+			
+			if(root == nullptr)
+			{
+				return ans;
 			} 
-		} 
-	} 
+			q.push(root);
+			while(!q.empty())
+			{
+				int levelsize = q.size();
+				vector<int> level;
+				for (int i = 0; i < levelsize; i++)
+				{
+					TreeNode* node = q.front();
+					q.pop();
+					level.push_back(node->val);
+					if(node->left != nullptr)
+					{
+						q.push(node->left);
+					}
+					if (node->right != nullptr)
+					{
+						q.push(node->right);
+					}
+				}
+				ans.push_back(level);
+			}
+			return ans;
+		}
+	};
 
-	// Print precomputed phi values 
-	for (int i=1; i<=n; i++) 
-	cout << "Totient of " << i << " is "
-		<< phi[i] << endl; 
-} 
-
-// Driver program to test above function 
-int main() 
-{ 
-	int n = 12; 
-	computeTotient(n); 
-	return 0; 
-} 
+int main(){
+	std::ios::sync_with_stdio(false);
+	std::cin.tie(nullptr);
+	
+	return 0;
+}
