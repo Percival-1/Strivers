@@ -8,54 +8,62 @@
 #include<queue>
 using namespace std;
 
-bool bfs(vector<vector<int>>& adj , vector<int>& vis , int node)
+class Node{
+    public:
+    int data;
+    Node* right;
+    Node* left;
+
+    Node() : data(0) , right(nullptr) , left(nullptr) {}
+    Node(int val) : data(val) , right(nullptr) , left(nullptr) {}
+    Node(int val , Node* right1 , Node* left1) : data(val) , right(right1) , left(left1) {} 
+};
+
+bool dfs(vector<vector<int>> &arr , vector<int> &vis , int node , int color)
 {
-    vis[node] = 0;
-    queue<int> q;
-    q.push(node);
-    while(!q.empty())
+    for (auto &&i : arr[node])
     {
-        int a = q.front();
-        q.pop();
-        for (auto &&i : adj[a])
+        if(vis[i] == -1)
         {
-            if (vis[i] == -1)
-            {
-                q.push(i);
-                vis[i] = !vis[a];
-            }
-            else if(vis[i] == vis[a])
+            vis[i] = color;
+            if(!dfs(arr , vis , i , !vis[i]))
             {
                 return false;
             }
+        }
+        else if(vis[i] == vis[node])
+        {
+            return false;
         }
     }
     return true;
 }
 
-void bipartite(vector<vector<int>>& arr , int v)
+void bipartite(vector<vector<int>> &arr , int v)
 {
     vector<int> vis(v+1 , -1);
-    for (int i = 1; i < v + 1; i++)
+
+    for (int i = 1; i < v+1; i++)
     {
-        if(vis[i] == -1 && bfs(arr , vis , i) == true)
+        if (vis[i] == -1 && !dfs(arr , vis , i , 0))
         {
-            cout<<"the graph is bipartite"<<endl;
+            cout<<"not bipartite graph"<<endl;
             return;
         }
     }
-    cout<<"the graph is not bipartite"<<endl;
+    
+    cout<<"biprtite graph"<<endl;
 }
 
-void adj(vector<vector<int>>& arr , int i , int j)
+void adj(vector<vector<int>> &arr , int i , int j)
 {
     arr[i].push_back(j);
     arr[j].push_back(i);
 }
 
-void print(vector<vector<int>>& arr)
+void print(vector<vector<int>> arr)
 {
-    for (int i = 1; i <  arr.size(); i++)
+    for (int i = 1; i < arr.size(); i++)
     {
         cout<<i<<" : ";
         for (int j = 0; j < arr[i].size(); j++)
@@ -69,7 +77,7 @@ void print(vector<vector<int>>& arr)
 int main(){
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
-
+    
     int v = 8;
     vector<vector<int>> arr(v+1);
     adj(arr , 1 , 2);
