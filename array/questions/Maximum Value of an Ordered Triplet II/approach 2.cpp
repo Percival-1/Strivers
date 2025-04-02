@@ -16,9 +16,11 @@ class Solution {
             long long maxi = 0;
             for (int i = 0; i < nums.size(); i++)
             {
-                
+                result = max(result , maxDiff*nums[i]);
+                maxi = max(maxi , (long long)nums[i]);
+                maxDiff = max(maxDiff , (long long)maxi - nums[i]);
             }
-            
+            return result;
         }
     };
 

@@ -11,8 +11,16 @@ using namespace std;
 class Solution {
     public:
         long long maximumTripletValue(vector<int>& nums) {
-            int  i = 0;
-            int k = 
+            long long result = 0;
+            long long maxDiff = 0;
+            long long maxi = 0;
+            for (int i = 0; i < nums.size(); i++)
+            {
+                result = max(result , maxDiff*nums[i]);
+                maxi = max(maxi , (long long)nums[i]);
+                maxDiff = max(maxDiff , (long long)maxi - nums[i]);
+            }
+            return result;
         }
     };
 
