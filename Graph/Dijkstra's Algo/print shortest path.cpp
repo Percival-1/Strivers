@@ -14,7 +14,7 @@ vector<int> dij(vector<vector<pair<int , int>>> &arr ,int s)
     int v = arr.size();
     vector<int> dis(v , INT_MAX);
     dis[s] = 0;
-    vector<int> path(v , 0);
+    vector<int> path(v , -1);
     path[s] = s;
     set<pair<int , int>> st;
     st.insert({0 , s});
@@ -23,9 +23,32 @@ vector<int> dij(vector<vector<pair<int , int>>> &arr ,int s)
         pair<int , int> p = *st.begin();
         st.erase(st.begin());
         int distance = p.first;
-        
+        for (auto &&i : arr[p.second])
+        {
+            if(i.first + distance < dis[i.second])
+            {
+                if(dis[i.second] != INT_MAX)
+                {
+                    st.erase({dis[i.second] , i.second});
+                }
+                dis[i.second] = i.first + distance;
+                st.insert({i.first + distance , i.second});
+                path[i.second] = p.second;
+            }
+        }
     }
+
+    vector<int> ans;
+    int a = 5;
+    while(a != path[a])
+    {
+        ans.push_back(a);
+        a = path[a];
+    }
+    ans.push_back(a);
     
+    reverse(ans.begin() , ans.end());
+    return ans;
 }
 
 void adj(vector<vector<pair<int , int>>> &arr , int i , int j , int e)
@@ -37,6 +60,24 @@ void adj(vector<vector<pair<int , int>>> &arr , int i , int j , int e)
 int main(){
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
+    int v  = 6;
+
+    vector<vector<pair<int , int>>> arr(v);
+
+    adj(arr , 0 , 1 , 4);
+    adj(arr , 0 , 2 , 4);
+    adj(arr , 1 , 2 , 2);
+    adj(arr , 2 , 3 , 3);
+    adj(arr , 2 , 5 , 6);
+    adj(arr , 2 , 4 , 1);
+    adj(arr , 3 , 5 , 2);
+    adj(arr , 4 , 5 , 3);
+    
+    vector<int> ans = dij(arr , 0);
+    for (int i = 0; i < ans.size(); i++)
+    {
+        cout<<ans[i]<<" ";
+    }
     
     return 0;
 }
